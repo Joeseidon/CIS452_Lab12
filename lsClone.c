@@ -59,6 +59,8 @@ int main(int argc, char *argv[])
 		char fileData[1024];
 		char temp[255];
 		struct stat statBuf;
+		
+		//NEED TO RESET STRING BUFFERS
 
 		
 		if(displayInode){
