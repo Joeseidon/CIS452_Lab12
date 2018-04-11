@@ -63,7 +63,7 @@ int main(int argc, char *argv[])
 		
 		if(displayInode){
 			//add inode value to the output string 
-			if((sprintf(temp,"%ld",&entryPtr->d_ino)) <= 0){
+			if((sprintf(temp,"%lu",&entryPtr->d_ino)) <= 0){
 				perror("Inode access failed");
 			}
 			strcat(fileData,temp);
