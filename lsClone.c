@@ -14,8 +14,8 @@ int main(int argc, char *argv[])
 	
 	//Flags
 	bool displayInode = false;
-	bool displayDetails = FALSE;
-	bool directorySet = FALSE;
+	bool displayDetails = false;
+	bool directorySet = false;
 
 	/**
 	*Modes of operation:
@@ -32,15 +32,15 @@ int main(int argc, char *argv[])
 	//start at 1. Will not need parameter 1
 	for(i=1; i < argc; i++){
 		if(strcmp(argv[i],"-i")==0){
-			displayInode = TRUE;
+			displayInode = true;
 		}else if(strcmp(argv[i],"-n")==0){
-			displayDetails = TRUE;
+			displayDetails = true;
 		}else if(!directorySet){
 			//check if this parameter is a valid directory and open it
 			if((dirPtr = opendir(argv[i])) == NULL){
 				printf("Invalid Parameter provided.\n");
 			}else{
-				directorySet = TRUE;
+				directorySet = true;
 			}
 		}else{
 			printf("Invalid Parameter Provided.\n");
