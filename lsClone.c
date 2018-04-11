@@ -75,7 +75,13 @@ int main(int argc, char *argv[])
 				perror("Failed to Grab File Status\n");
 			}
 			//append output string with formated file data
-			//sprintf("");
+			//permissions  //  user  //  group  //  size  //  time of last modification
+			sprintf("%du  %d  %d  %l  %l",
+					statBuf.st_mode,
+					statBuf.st_uid,
+					statBuf.st_gid,
+					statBuf.st_size,
+					statBuf.st_ctime);
 		}
 		
 		//append output string with file name
