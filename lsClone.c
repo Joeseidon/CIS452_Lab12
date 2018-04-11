@@ -5,6 +5,7 @@
 #include <errno.h>
 #include <string.h>
 #include <stdbool.h>
+#include <stdlib.h>
 
 
 int main(int argc, char *argv[])
@@ -58,11 +59,13 @@ int main(int argc, char *argv[])
 		char fileData[1024];
 		char temp[255];
 		struct stat statBuf;
-		int n;
+
 		
 		if(displayInode){
 			//add inode value to the output string 
-			n = sprintf(temp,"%l",entryPtr->d_ino);
+			if((sprintf(temp,"%l",entryPtr->d_ino)) <= 0){
+				perror("Inode access failed");
+			}
 			strcat(fileData,temp);
 		}
 		if(displayDetails){
