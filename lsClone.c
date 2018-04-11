@@ -76,7 +76,7 @@ int main(int argc, char *argv[])
 			}
 			//append output string with formated file data
 			//permissions  //  user  //  group  //  size  //  time of last modification
-			sprintf(temp,"%du  %d  %d  %l  %l",
+			sprintf(temp,"%du  %d  %d  %ld  %ld",
 					statBuf.st_mode,
 					statBuf.st_uid,
 					statBuf.st_gid,
