@@ -55,13 +55,14 @@ int main(int argc, char *argv[])
 	//cycle through files & sub directories in the current location
     while ((entryPtr = readdir(dirPtr))){
 		//create a string per file. This string will be modified based on the provided parameters 
-		char *fileData;
+		char fileData[1024];
 		char temp[255];
 		struct stat statBuf;
+		int n;
 		
 		if(displayInode){
 			//add inode value to the output string 
-			sprintf(temp,"%l",entryPtr->d_ino);
+			n = sprintf(temp,"%l",entryPtr->d_ino);
 			strcat(fileData,temp);
 		}
 		if(displayDetails){
