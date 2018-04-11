@@ -3,7 +3,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <errno.h>
-#incldue <string.h>
+#include <string.h>
 #include <stdbool.h>
 
 
@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
     struct dirent *entryPtr;
 	
 	//Flags
-	bool displayInode = FALSE;
+	bool displayInode = false;
 	bool displayDetails = FALSE;
 	bool directorySet = FALSE;
 
@@ -65,11 +65,11 @@ int main(int argc, char *argv[])
 			strcat(fileData,temp);
 		}
 		if(displayDetails){
-			if((stat(entryPtr, &statBuf)) < 0){
+			if((stat(entryPtr->d_name, &statBuf)) < 0){
 				perror("Failed to Grab File Status\n");
 			}
 			//append output string with formated file data
-			sprintf("");
+			//sprintf("");
 		}
 		
 		//append output string with file name
