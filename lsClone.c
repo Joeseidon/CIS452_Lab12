@@ -85,7 +85,7 @@ int main(int argc, char *argv[])
 				perror("Inode access failed");
 			}*/
 			
-			printf("%lu  %s",entryPtr->d_ino,enrtyPtr->d_name);
+			printf("%lu  %s",entryPtr->d_ino,entryPtr->d_name);
 			
 		}else if(displayDetails){
 			if((stat(entryPtr->d_name, &statBuf)) < 0){
