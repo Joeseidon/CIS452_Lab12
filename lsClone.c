@@ -101,7 +101,7 @@ int main(int argc, char *argv[])
 					statBuf.st_uid,
 					statBuf.st_gid,
 					statBuf.st_size,
-					statBuf.st_mtime,,
+					statBuf.st_mtime,
 					entryPtr->d_name);
 			
 			printf("%s\n",temp);
