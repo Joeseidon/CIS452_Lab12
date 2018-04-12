@@ -6,6 +6,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include <stdlib.h>
+#include <time.h>
 
 void permissions(char *output, mode_t mode){
 	/*printf( (S_ISDIR(fileStat.st_mode)) ? "d" : "-");
@@ -80,6 +81,7 @@ int main(int argc, char *argv[])
 		//create a string per file. This string will be modified based on the provided parameters 
 		char permis[100];
 		char temp[1024];
+		char time[100];
 		struct stat statBuf;
 		
 		//NEED TO RESET STRING BUFFERS
@@ -91,6 +93,8 @@ int main(int argc, char *argv[])
 			}
 			//inode  permissions  //  user  //  group  //  size  //  time of last modification
 			permissions(permis, statBuf.st_mode);
+			sprintf(time,"%s",ctime(&statBuf.st_ctime));
+			printf("\n%s\n",time);
 			sprintf(temp,"%lu  %s  %d  %d  %ld  %ld  %s\n",
 					statBuf.st_ino,
 					permis,
@@ -108,7 +112,7 @@ int main(int argc, char *argv[])
 				perror("Inode access failed");
 			}*/
 			
-			printf("%lu  %s",entryPtr->d_ino,entryPtr->d_name);
+			printf("%lu  %s\n",entryPtr->d_ino,entryPtr->d_name);
 			
 		}else if(displayDetails){
 			if((stat(entryPtr->d_name, &statBuf)) < 0){
