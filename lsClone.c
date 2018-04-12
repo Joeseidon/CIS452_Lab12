@@ -57,13 +57,55 @@ int main(int argc, char *argv[])
     while ((entryPtr = readdir(dirPtr))){
 		//create a string per file. This string will be modified based on the provided parameters 
 		char fileData[1024];
-		char temp[255];
+		char temp[1024];
 		struct stat statBuf;
 		
 		//NEED TO RESET STRING BUFFERS
 
+		if(displayInode && displayDetails){
+			
+			if((stat(entryPtr->d_name, &statBuf)) < 0){
+				perror("Failed to Grab File Status\n");
+			}
+			//inode  permissions  //  user  //  group  //  size  //  time of last modification
+			sprintf(temp,"%lu  %du  %d  %d  %ld  %ld  %s\n",
+					statBuf.st_ino,
+					statBuf.st_mode,
+					statBuf.st_uid,
+					statBuf.st_gid,
+					statBuf.st_size,
+					statBuf.st_ctime,
+					entryPtr->d_name);
+			
+			printf("%s\n",temp);
+			
+		}else if(displayInode){
+			//add inode value to the output string 
+			/*if((sprintf(temp,"%lu",entryPtr->d_ino)) <= 0){
+				perror("Inode access failed");
+			}*/
+			
+			printf("%lu  %s",entryPtr->d_ino,enrtyPtr->d_name);
+			
+		}else if(displayDetails){
+			if((stat(entryPtr->d_name, &statBuf)) < 0){
+				perror("Failed to Grab File Status\n");
+			}
+			//permissions  //  user  //  group  //  size  //  time of last modification
+			sprintf(temp,"%du  %d  %d  %ld  %ld  %s\n",
+					statBuf.st_mode,
+					statBuf.st_uid,
+					statBuf.st_gid,
+					statBuf.st_size,
+					statBuf.st_ctime,
+					entryPtr->d_name);
+			printf("%s\n",temp);
+		}else{
+			//Just print file name
+			printf("%s\n",entryPtr->d_name);
+		}
 		
-		if(displayInode){
+		/*if(displayInode){
 			//add inode value to the output string 
 			if((sprintf(temp,"%lu",entryPtr->d_ino)) <= 0){
 				perror("Inode access failed");
@@ -71,25 +113,14 @@ int main(int argc, char *argv[])
 			strcat(fileData,temp);
 		}
 		if(displayDetails){
-			if((stat(entryPtr->d_name, &statBuf)) < 0){
-				perror("Failed to Grab File Status\n");
-			}
-			//append output string with formated file data
-			//permissions  //  user  //  group  //  size  //  time of last modification
-			sprintf(temp,"%du  %d  %d  %ld  %ld",
-					statBuf.st_mode,
-					statBuf.st_uid,
-					statBuf.st_gid,
-					statBuf.st_size,
-					statBuf.st_ctime);
+			
 			strcat(fileData,temp);
 		}
 		
-		//append output string with file name
-		strcat(fileData,entryPtr->d_name);
+		
 		
 		//print output string
-		printf("%s\n",fileData);		
+		printf("%s\n",fileData);	*/	
 	}
 	
 	//close referenced directory
