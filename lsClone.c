@@ -95,7 +95,7 @@ int main(int argc, char *argv[])
 			//inode  permissions  //  user  //  group  //  size  //  time of last modification
 			permissions(permis, statBuf.st_mode);
 	
-			sprintf(temp,"%lu %s %d %d %ld %ls %s",
+			sprintf(temp,"%lu %s %d %d %ld %ld %s",
 					statBuf.st_ino,
 					permis,
 					statBuf.st_uid,
