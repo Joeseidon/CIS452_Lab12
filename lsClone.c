@@ -89,9 +89,9 @@ int main(int argc, char *argv[])
 
 		if(displayInode && displayDetails){
 			
-			/*if((stat(entryPtr->d_name, &statBuf)) < 0){
-				perror("Failed to Grab File Status\n");
-			}*/
+			if((stat(entryPtr->d_name, &statBuf)) < 0){
+				//perror("Failed to Grab File Status\n");
+			}
 			//inode  permissions  //  user  //  group  //  size  //  time of last modification
 			permissions(permis, statBuf.st_mode);
 			sprintf(time,"%s",ctime(&statBuf.st_ctime));
@@ -114,9 +114,9 @@ int main(int argc, char *argv[])
 			printf("%lu  %s\n",entryPtr->d_ino,entryPtr->d_name);
 			
 		}else if(displayDetails){
-			/*if((stat(entryPtr->d_name, &statBuf)) < 0){
-				perror("Failed to Grab File Status\n");
-			}*/
+			if((stat(entryPtr->d_name, &statBuf)) < 0){
+				//perror("Failed to Grab File Status\n");
+			}
 			//permissions  //  user  //  group  //  size  //  time of last modification
 			permissions(permis, statBuf.st_mode);
 			sprintf(temp,"%s  %d  %d  %ld  %ld  %s",
