@@ -7,7 +7,29 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
-
+void permissions(char *output, mode_t mode){
+	/*printf( (S_ISDIR(fileStat.st_mode)) ? "d" : "-");
+    printf( (fileStat.st_mode & S_IRUSR) ? "r" : "-");
+    printf( (fileStat.st_mode & S_IWUSR) ? "w" : "-");
+    printf( (fileStat.st_mode & S_IXUSR) ? "x" : "-");
+    printf( (fileStat.st_mode & S_IRGRP) ? "r" : "-");
+    printf( (fileStat.st_mode & S_IWGRP) ? "w" : "-");
+    printf( (fileStat.st_mode & S_IXGRP) ? "x" : "-");
+    printf( (fileStat.st_mode & S_IROTH) ? "r" : "-");
+    printf( (fileStat.st_mode & S_IWOTH) ? "w" : "-");
+    printf( (fileStat.st_mode & S_IXOTH) ? "x" : "-");*/
+	sprintf(output,"%s%s%s%s%s%s%s%s%s%s",
+			( (S_ISDIR(mode)) ? "d" : "-"),
+			( (mode & S_IRUSR) ? "r" : "-"),
+			( (mode & S_IWUSR) ? "w" : "-"),
+			( (mode & S_IXUSR) ? "x" : "-"),
+			( (mode & S_IRGRP) ? "r" : "-"),
+			( (mode & S_IWGRP) ? "w" : "-"),
+			( (mode & S_IXGRP) ? "x" : "-"),
+			( (mode & S_IROTH) ? "r" : "-"),
+			( (mode & S_IWOTH) ? "w" : "-"),
+			( (mode & S_IXOTH) ? "x" : "-"));
+}
 int main(int argc, char *argv[])
 {
     DIR *dirPtr;
@@ -56,7 +78,7 @@ int main(int argc, char *argv[])
 	//cycle through files & sub directories in the current location
     while ((entryPtr = readdir(dirPtr))){
 		//create a string per file. This string will be modified based on the provided parameters 
-		char fileData[1024];
+		char permis[100];
 		char temp[1024];
 		struct stat statBuf;
 		
@@ -68,9 +90,10 @@ int main(int argc, char *argv[])
 				perror("Failed to Grab File Status\n");
 			}
 			//inode  permissions  //  user  //  group  //  size  //  time of last modification
-			sprintf(temp,"%lu  %du  %d  %d  %ld  %ld  %s\n",
+			permissions(permis, statBuf.st_mode);
+			sprintf(temp,"%lu  %s  %d  %d  %ld  %ld  %s\n",
 					statBuf.st_ino,
-					statBuf.st_mode,
+					permis,
 					statBuf.st_uid,
 					statBuf.st_gid,
 					statBuf.st_size,
@@ -92,8 +115,9 @@ int main(int argc, char *argv[])
 				perror("Failed to Grab File Status\n");
 			}
 			//permissions  //  user  //  group  //  size  //  time of last modification
-			sprintf(temp,"%du  %d  %d  %ld  %ld  %s\n",
-					statBuf.st_mode,
+			permissions(permis, statBuf.st_mode);
+			sprintf(temp,"%s  %d  %d  %ld  %ld  %s\n",
+					permis,
 					statBuf.st_uid,
 					statBuf.st_gid,
 					statBuf.st_size,
