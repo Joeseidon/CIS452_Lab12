@@ -1,3 +1,12 @@
+/*
+*Author: Joseph Cutino & Brendon Murthum
+*
+*Project: Lab12
+*
+*Date: 4/11/2018
+*/
+
+//Includes
 #include <stdio.h>
 #include <dirent.h>
 #include <sys/stat.h>
@@ -8,17 +17,8 @@
 #include <stdlib.h>
 #include <time.h>
 
+//Function used to convert mode_t integer to a visual representation of permissions
 void permissions(char *output, mode_t mode){
-	/*printf( (S_ISDIR(fileStat.st_mode)) ? "d" : "-");
-    printf( (fileStat.st_mode & S_IRUSR) ? "r" : "-");
-    printf( (fileStat.st_mode & S_IWUSR) ? "w" : "-");
-    printf( (fileStat.st_mode & S_IXUSR) ? "x" : "-");
-    printf( (fileStat.st_mode & S_IRGRP) ? "r" : "-");
-    printf( (fileStat.st_mode & S_IWGRP) ? "w" : "-");
-    printf( (fileStat.st_mode & S_IXGRP) ? "x" : "-");
-    printf( (fileStat.st_mode & S_IROTH) ? "r" : "-");
-    printf( (fileStat.st_mode & S_IWOTH) ? "w" : "-");
-    printf( (fileStat.st_mode & S_IXOTH) ? "x" : "-");*/
 	sprintf(output,"%s%s%s%s%s%s%s%s%s%s",
 			( (S_ISDIR(mode)) ? "d" : "-"),
 			( (mode & S_IRUSR) ? "r" : "-"),
@@ -31,16 +31,13 @@ void permissions(char *output, mode_t mode){
 			( (mode & S_IWOTH) ? "w" : "-"),
 			( (mode & S_IXOTH) ? "x" : "-"));
 }
+
 int main(int argc, char *argv[])
 {
+	//Directory variables
     DIR *dirPtr;
     struct dirent *entryPtr;
 	
-	//Flags
-	bool displayInode = false;
-	bool displayDetails = false;
-	bool directorySet = false;
-
 	/**
 	*Modes of operation:
 	*	no params: list current dir
@@ -49,8 +46,12 @@ int main(int argc, char *argv[])
 	*	-i: provides the inode number for each file/dir
 	*/
 	
+	//Flags
+	bool displayInode = false;
+	bool displayDetails = false;
+	bool directorySet = false;	
 	
-	//cycle through params and find which apply
+	//cycle through parameters and find which apply
 	
 	int i;
 	//start at 1. Will not need parameter 1
@@ -82,21 +83,21 @@ int main(int argc, char *argv[])
 		char permis[100];
 		char temp[1024];
 		char time[100];
+		char time2[100];
 		struct stat statBuf;
-		
-		//NEED TO RESET STRING BUFFERS
+	
 
 		if(displayInode && displayDetails){
 			
-			if((stat(entryPtr->d_name, &statBuf)) < 0){
+			/*if((stat(entryPtr->d_name, &statBuf)) < 0){
 				perror("Failed to Grab File Status\n");
-			}
+			}*/
 			//inode  permissions  //  user  //  group  //  size  //  time of last modification
 			permissions(permis, statBuf.st_mode);
 			sprintf(time,"%s",ctime(&statBuf.st_ctime));
-			char time2[100];
+			
 			strncpy(time2,time+4,12);
-			//printf("\n%s\n",&time[4]);
+
 			sprintf(temp,"%lu %s %d %d %ld %s %s",
 					statBuf.st_ino,
 					permis,
@@ -109,20 +110,16 @@ int main(int argc, char *argv[])
 			printf("%s\n",temp);
 			
 		}else if(displayInode){
-			//add inode value to the output string 
-			/*if((sprintf(temp,"%lu",entryPtr->d_ino)) <= 0){
-				perror("Inode access failed");
-			}*/
 			
 			printf("%lu  %s\n",entryPtr->d_ino,entryPtr->d_name);
 			
 		}else if(displayDetails){
-			if((stat(entryPtr->d_name, &statBuf)) < 0){
+			/*if((stat(entryPtr->d_name, &statBuf)) < 0){
 				perror("Failed to Grab File Status\n");
-			}
+			}*/
 			//permissions  //  user  //  group  //  size  //  time of last modification
 			permissions(permis, statBuf.st_mode);
-			sprintf(temp,"%s  %d  %d  %ld  %ld  %s\n",
+			sprintf(temp,"%s  %d  %d  %ld  %ld  %s",
 					permis,
 					statBuf.st_uid,
 					statBuf.st_gid,
@@ -134,23 +131,6 @@ int main(int argc, char *argv[])
 			//Just print file name
 			printf("%s\n",entryPtr->d_name);
 		}
-		
-		/*if(displayInode){
-			//add inode value to the output string 
-			if((sprintf(temp,"%lu",entryPtr->d_ino)) <= 0){
-				perror("Inode access failed");
-			}
-			strcat(fileData,temp);
-		}
-		if(displayDetails){
-			
-			strcat(fileData,temp);
-		}
-		
-		
-		
-		//print output string
-		printf("%s\n",fileData);	*/	
 	}
 	
 	//close referenced directory
